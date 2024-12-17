@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { HeadersDefaults } from "axios";
 import Cookies from "universal-cookie";
+import { AUTH_COOKIES_KEY } from "@/lib/utils"
 
 const axiosClient: any = axios.create();
 const cookies = new Cookies();
-const AUTH_COOKIES_KEY = 'Coba-Cookies-Auth';
 
 axiosClient.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -24,7 +24,7 @@ axiosClient.interceptors.request.use(
     const authToken = cookies.get(AUTH_COOKIES_KEY);
 
     if (authToken) {
-      config.headers["Authorization"] = "bearer " + authToken;
+      config.headers["Authorization"] = "Bearer " + authToken;
     }
     return config;
   },

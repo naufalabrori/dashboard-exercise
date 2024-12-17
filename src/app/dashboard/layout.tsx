@@ -65,7 +65,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <>
                       <BreadcrumbSeparator className="hidden md:block" />
                       <BreadcrumbItem>
-                        <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                        <BreadcrumbPage>Nanti dulu</BreadcrumbPage>
                       </BreadcrumbItem>
                     </>
                   ) : null}
