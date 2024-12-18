@@ -1,12 +1,14 @@
-"use client"; // Jika menggunakan App Router di Next.js
+"use client";
 
 import { useEffect, useState } from "react";
 import { OtherInboundHeader, otherInboundHeaderColumns } from "@/components/modules/dashboard/logistic/otherinbound/columns";
 import { OtherInboundHeaderDataTable } from "@/components/modules/dashboard/logistic/otherinbound/data-table";
 import axiosClient from "@/services/AxiosClient";
+import useMenuStore from "@/hooks/useMenuStore";
 
-export default function DemoPage() {
+export default function OtherInboundPage() {
   const [data, setData] = useState<OtherInboundHeader[]>([]);
+  const { setMenu } = useMenuStore();
 
   useEffect(() => {
     async function fetchData() {
@@ -19,6 +21,7 @@ export default function DemoPage() {
     }
 
     fetchData();
+    setMenu("Other Inbound")
   }, []);
 
   return (

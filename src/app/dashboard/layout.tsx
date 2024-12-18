@@ -19,6 +19,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AUTH_COOKIES_KEY } from "@/lib/utils";
 import Link from "next/link";
+import useMenuStore from "@/hooks/useMenuStore";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const cookies = new Cookies();
@@ -27,12 +28,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const isDashboardChild = pathname.includes("/dashboard/");
 
   const [isAuth, setIsAuth] = useState<boolean>(false);
+  const { menu } = useMenuStore();
 
   useEffect(() => {
     const token = cookies.get(AUTH_COOKIES_KEY);
     if (token) {
       setIsAuth(true);
     } else {
+      localStorage.clear();
       router.push("/auth/login");
     }
   }, [router]);
@@ -65,7 +68,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <>
                       <BreadcrumbSeparator className="hidden md:block" />
                       <BreadcrumbItem>
-                        <BreadcrumbPage>Nanti dulu</BreadcrumbPage>
+                        <BreadcrumbPage>{menu}</BreadcrumbPage>
                       </BreadcrumbItem>
                     </>
                   ) : null}
