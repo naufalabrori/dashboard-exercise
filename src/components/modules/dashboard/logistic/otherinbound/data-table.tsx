@@ -1,136 +1,125 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
   useReactTable,
+  SortingState,
+  getSortedRowModel,
 } from "@tanstack/react-table";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { Table } from "@/components/ui/table";
+import { DataTableProps } from "./types";
+import { DataTablePagination } from "./pagination";
+import { DataTableHeader } from "./table-header";
+import { DataTableBody } from "./table-body";
+import { useTableData } from "@/hooks/use-table-data";
+import { useTablePagination } from "@/hooks/use-table-pagination";
 import { Input } from "@/components/ui/input";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function OtherInboundHeaderDataTable<TData, TValue>({
   columns,
-  data,
+  initialData = [],
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [totalData, setTotalData] = useState(initialData.length);
+  const [defaultFilter, setDefaultFilter] = useState<string>("code");
+  const [filterValue, setFilterValue] = useState<string>("");
+
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const { pagination, totalPages, currentPage, handlePageChange } =
+    useTablePagination(totalData);
+  const { data, total, loading, error } = useTableData<TData>(
+    sorting,
+    pagination,
+    {
+      key: defaultFilter,
+      value: filterValue
+    }
+  );
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
-      columnFilters
-    }
+    },
   });
 
+  const dataColumnFiltering = [
+    {
+      key: "code",
+      value: "Code",
+    },
+    {
+      key: "businessPartner",
+      value: "Business Partner"
+    },
+    {
+      key: "bpOrder",
+      value: "BP Order",
+    },
+  ];
+
+  useEffect(() => {
+    setTotalData(total);
+  }, [total]);
+
   return (
-    <div>
-      <div className="flex items-center py-4">
+    <div className="space-y-4">
+      <div className="flex items-center py-4 gap-2">
+        <Select value={defaultFilter} onValueChange={(value) => setDefaultFilter(value)}>
+          <SelectTrigger className="w-32">
+            <SelectValue placeholder="Select a fruit" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {dataColumnFiltering.map((coll) => (
+                <SelectItem key={coll.key} value={coll.key}>
+                  {coll.value}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
         <Input
-          placeholder="Filter Code..."
-          value={(table.getColumn("code")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter"
           onChange={(event) =>
-            table.getColumn("code")?.setFilterValue(event.target.value)
+            setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
       </div>
       <div className="rounded-md border">
         <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+          <DataTableHeader headerGroups={table.getHeaderGroups()} />
+          <DataTableBody
+            loading={loading}
+            error={error}
+            rows={table.getRowModel().rows}
+            columnLength={columns.length}
+          />
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </div>
+      <DataTablePagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        total={total}
+        offset={pagination.offset}
+        limit={pagination.limit}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }
