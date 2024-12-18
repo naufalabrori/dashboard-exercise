@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 
 export type OtherInboundHeader = {
   id: string;
@@ -54,6 +55,18 @@ export const otherInboundHeaderColumns: ColumnDef<OtherInboundHeader>[] = [
   {
     accessorKey: "bpOrder",
     header: () => "BP Order",
+  },
+  {
+    accessorKey: "transactionStatus",
+    header: "Status",
+    cell: ({ row }) => {
+      const status = row.getValue("transactionStatus") as string
+      return (
+        <Badge className={status === "Closed" ? "bg-red-500 hover:bg-red-600" : "bg-green-500 hover:bg-green-600"}>
+          {status}
+        </Badge>
+      )
+    },
   },
   {
     id: "actions",
