@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { NumberOfShowTable } from "@/lib/utils";
 
 export function OtherInboundHeaderDataTable<TData, TValue>({
   columns,
@@ -33,16 +34,17 @@ export function OtherInboundHeaderDataTable<TData, TValue>({
   const [totalData, setTotalData] = useState(initialData.length);
   const [defaultFilter, setDefaultFilter] = useState<string>("code");
   const [filterValue, setFilterValue] = useState<string>("");
+  const [defaultLimit, setDefaultLimit] = useState<string>("5");
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const { pagination, totalPages, currentPage, handlePageChange } =
-    useTablePagination(totalData);
+    useTablePagination(totalData, Number(defaultLimit));
   const { data, total, loading, error } = useTableData<TData>(
     sorting,
     pagination,
     {
       key: defaultFilter,
-      value: filterValue
+      value: filterValue,
     }
   );
 
@@ -64,7 +66,7 @@ export function OtherInboundHeaderDataTable<TData, TValue>({
     },
     {
       key: "businessPartner",
-      value: "Business Partner"
+      value: "Business Partner",
     },
     {
       key: "bpOrder",
@@ -74,32 +76,57 @@ export function OtherInboundHeaderDataTable<TData, TValue>({
 
   useEffect(() => {
     setTotalData(total);
-  }, [total]);
-
+    pagination.limit = Number(defaultLimit);
+  }, [total, defaultLimit, pagination]);
+  
   return (
-    <div className="space-y-4">
-      <div className="flex items-center py-4 gap-2">
-        <Select value={defaultFilter} onValueChange={(value) => setDefaultFilter(value)}>
-          <SelectTrigger className="w-32">
-            <SelectValue placeholder="Select a fruit" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {dataColumnFiltering.map((coll) => (
-                <SelectItem key={coll.key} value={coll.key}>
-                  {coll.value}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <Input
-          placeholder="Filter"
-          onChange={(event) =>
-            setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+    <div className="space-y-2">
+      <div className="flex justify-between">
+        <div className="flex items-center gap-2">
+          <Select
+            value={defaultFilter}
+            onValueChange={(value) => setDefaultFilter(value)}
+          >
+            <SelectTrigger className="w-32">
+              <SelectValue placeholder="Select one" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {dataColumnFiltering.map((coll) => (
+                  <SelectItem key={coll.key} value={coll.key}>
+                    {coll.value}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Input
+            placeholder="Filter"
+            onChange={(event) => setFilterValue(event.target.value)}
+            className="max-w-sm"
+          />
+        </div>
+        <div className="flex">
+          <div className="mr-2 mt-2">Show</div>
+          <Select
+            value={defaultLimit}
+            onValueChange={(value) => setDefaultLimit(value)}
+          >
+            <SelectTrigger className="w-20">
+              <SelectValue placeholder="Select one" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {NumberOfShowTable.map((item) => (
+                  <SelectItem key={item.label} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <div className="mt-2 ml-2">entries</div>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>
