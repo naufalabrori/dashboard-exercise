@@ -1,15 +1,12 @@
 "use client";
-
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
@@ -21,58 +18,55 @@ export type OtherInboundHeader = {
   bpOrder: string;
   remarks: string;
   transactionStatus: "Open" | "Approved" | "Confirmed";
+  createdBy: string;
+  createdByName: string;
+  createdDate: string;
 };
 
 export const otherInboundHeaderColumns: ColumnDef<OtherInboundHeader>[] = [
+  // {
+  //   id: "numbers",
+  //   header: "No",
+  //   cell: (info) => info.row.index + 1
+  // },
   {
     accessorKey: "code",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Code
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: () => "Code"
   },
   {
     accessorKey: "businessPartner",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Business Partner
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: () => "Business Partner"
   },
   {
     accessorKey: "bpOrder",
     header: () => "BP Order",
   },
   {
+    accessorKey: "remarks",
+    header: () => "Remarks",
+  },
+  {
     accessorKey: "transactionStatus",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.getValue("transactionStatus") as string
+      const status = row.getValue("transactionStatus") as string;
       return (
-        <Badge className={status === "Closed" ? "bg-red-500 hover:bg-red-600" : "bg-green-500 hover:bg-green-600"}>
+        <Badge
+          className={
+            status === "Closed"
+              ? "bg-red-500 hover:bg-red-600"
+              : "bg-green-500 hover:bg-green-600"
+          }
+        >
           {status}
         </Badge>
-      )
+      );
     },
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const cellData = row.original;
-
+    header: "Action",
+    cell: () => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -82,13 +76,6 @@ export const otherInboundHeaderColumns: ColumnDef<OtherInboundHeader>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(cellData.code)}
-            >
-              Copy Code
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
             <DropdownMenuItem>View</DropdownMenuItem>
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
