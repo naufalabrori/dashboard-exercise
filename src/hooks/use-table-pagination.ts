@@ -11,7 +11,7 @@ interface UsePaginationReturn {
   pagination: PaginationParams;
   totalPages: number;
   currentPage: number;
-  handlePageChange: (direction: "prev" | "next") => void;
+  handlePageChange: (direction: "prev" | "next" | number) => void;
 }
 
 export function useTablePagination(
@@ -26,15 +26,25 @@ export function useTablePagination(
   const totalPages = Math.ceil(total / pagination.limit);
   const currentPage = Math.floor(pagination.offset / pagination.limit) + 1;
 
-  const handlePageChange = (direction: "prev" | "next") => {
-    setPagination((prev) => ({
-      ...prev,
-      offset:
-        direction === "prev"
-          ? Math.max(0, prev.offset - prev.limit)
-          : prev.offset + prev.limit,
-    }));
+  const handlePageChange = (direction: "prev" | "next" | number) => {
+    setPagination((prev) => {
+      if (typeof direction === "number") {
+        return {
+          ...prev,
+          offset: Math.max(0, direction),
+        };
+      }
+  
+      return {
+        ...prev,
+        offset:
+          direction === "prev"
+            ? Math.max(0, prev.offset - prev.limit)
+            : prev.offset + prev.limit,
+      };
+    });
   };
+  
 
   return {
     pagination,
