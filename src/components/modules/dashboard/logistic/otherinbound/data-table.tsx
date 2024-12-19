@@ -45,7 +45,7 @@ function useTableData<TData>(
   const [total, setTotal] = useState(0);
 
   const sortField = sorting[0];
-  const params = {
+  const params: any = {
     ...pagination,
     orderBy: sortField?.id,
     isDesc: sortField?.desc,
@@ -115,17 +115,15 @@ export function OtherInboundHeaderDataTable() {
     setTotalData(total);
   }, [total]);
 
-  // Fungsi untuk menangani perubahan limit (jumlah entri per halaman)
   const handleLimitChange = (value: string) => {
     setLimit(value);
-    handlePageChange(0); // Reset ke halaman pertama
+    handlePageChange(0);
   };
 
-  // Fungsi untuk menangani perubahan filter (kolom yang digunakan untuk filter)
   const handleFilterChange = (key: string, value: string) => {
     setFilterBy(key);
     setFilterValue(value);
-    handlePageChange(0); // Reset ke halaman pertama
+    handlePageChange(0);
   };
 
   useEffect(() => {

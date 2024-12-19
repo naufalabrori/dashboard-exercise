@@ -28,7 +28,11 @@ export const OtherInboundHeaderColumns = ({
       {
         id: "numbers",
         header: "No",
-        cell: (info) => perPage * (currentPage - 1) + (info?.row.index + 1),
+        cell: (info) => {
+          return (
+            <div className="text-center">{perPage * (currentPage - 1) + (info?.row.index + 1)}</div>
+          )
+        }
       },
       {
         accessorKey: "code",
