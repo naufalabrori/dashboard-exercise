@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -6,10 +7,10 @@ import {
   useReactTable,
   SortingState,
   getSortedRowModel,
+  ColumnDef,
 } from "@tanstack/react-table";
 
 import { Table } from "@/components/ui/table";
-import { DataTableProps } from "../../../../table/types";
 import { DataTablePagination } from "@/components/table/pagination";
 import { DataTableHeader } from "../../../../table/table-header";
 import { DataTableBody } from "../../../../table/table-body";
@@ -26,12 +27,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { NumberOfShowTable } from "@/lib/utils";
+import { OtherInboundHeaderColumns } from "./columns";
+import { OtherInboundHeader } from "@/services/OtherInbound/types";
 
-export function OtherInboundHeaderDataTable<TData, TValue>({
-  columns,
-  initialData = [],
-}: DataTableProps<TData, TValue>) {
-  const [totalData, setTotalData] = useState(initialData.length);
+export function OtherInboundHeaderDataTable() {
+  const [totalData, setTotalData] = useState(0);
   const [defaultFilter, setDefaultFilter] = useState<string>("code");
   const [filterValue, setFilterValue] = useState<string>("");
   const [defaultLimit, setDefaultLimit] = useState<string>("5");
@@ -39,14 +39,16 @@ export function OtherInboundHeaderDataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([]);
   const { pagination, totalPages, currentPage, handlePageChange } =
     useTablePagination(totalData, Number(defaultLimit));
-  const { data, total, loading, error } = useTableData<TData>(
-    sorting,
-    pagination,
-    {
-      key: defaultFilter,
-      value: filterValue,
-    }
-  );
+  const { data, total, loading, error } = useTableData(sorting, pagination, {
+    key: defaultFilter,
+    value: filterValue,
+  });
+
+  const columns: ColumnDef<any, OtherInboundHeader>[] =
+    OtherInboundHeaderColumns({
+      currentPage,
+      perPage: Number(defaultLimit),
+    });
 
   const table = useReactTable({
     data,
@@ -76,9 +78,8 @@ export function OtherInboundHeaderDataTable<TData, TValue>({
 
   useEffect(() => {
     setTotalData(total);
-    pagination.limit = Number(defaultLimit);
-  }, [total, defaultLimit, pagination]);
-  
+  }, [total]);
+
   return (
     <div className="space-y-2">
       <div className="flex justify-between">

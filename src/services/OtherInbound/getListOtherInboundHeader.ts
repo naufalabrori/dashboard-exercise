@@ -2,7 +2,7 @@
 import axiosClient from "../AxiosClient";
 import { useQuery } from "@tanstack/react-query";
 import { PaginationParams } from "@/lib/types";
-import { OtherInboundHeader } from "@/components/modules/dashboard/logistic/otherinbound/columns";
+import { OtherInboundHeader } from "./types";
 
 export type OtherInboundHeaderResponse = OtherInboundHeader & {
   data: OtherInboundHeader[];
