@@ -132,7 +132,7 @@ export function OtherInboundHeaderDataTable() {
   }, [limit, filterBy, filterValue]);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-full">
       <div className="flex justify-between">
         <div className="flex items-center gap-2">
           <Select
@@ -185,7 +185,7 @@ export function OtherInboundHeaderDataTable() {
         </div>
       </div>
       <div className="rounded-md border">
-        <Table>
+        <Table className="w-full overflow-y-auto">
           <DataTableHeader headerGroups={table.getHeaderGroups()} />
           <DataTableBody
             loading={loading}
