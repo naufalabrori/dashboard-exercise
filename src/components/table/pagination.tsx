@@ -61,7 +61,7 @@ export function DataTablePagination({
           typeof page === "number" ? (
             <Button
               key={page}
-              variant={page === currentPage ? "default" : "outline"}
+              className={page === currentPage ? "bg-violet-500 font-medium hover:bg-violet-600" : "bg-white hover:bg-slate-200 font-medium text-black"}
               size="sm"
               onClick={() => onPageChange((page - 1) * limit)}
             >

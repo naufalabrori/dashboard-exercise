@@ -9,7 +9,7 @@ export type OtherInboundHeaderResponse = OtherInboundHeader & {
   totalData: number;
 };
 
-export type OtherInboundHeaderParams = PaginationParams;
+export type OtherInboundHeaderParams = OtherInboundHeader & PaginationParams;
 
 async function getOtherInboundHeader<T>(
   params: OtherInboundHeaderParams

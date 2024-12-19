@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { Button } from "@/components/ui/button";
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { flexRender, HeaderGroup } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowBigUp, ArrowBigDown } from "lucide-react";
 
 interface DataTableHeaderProps<TData> {
   headerGroups: HeaderGroup<TData>[];
@@ -13,17 +12,29 @@ export function DataTableHeader<TData>({
   headerGroups,
 }: DataTableHeaderProps<TData>) {
   return (
-    <TableHeader>
+    <TableHeader className="rounded-t-lg">
       {headerGroups.map((headerGroup) => (
         <TableRow key={headerGroup.id}>
-          {headerGroup.headers.map((header) => (
-            <TableHead key={header.id}>
+          {headerGroup.headers.map((header, index) => (
+            <TableHead
+              key={header.id}
+              className={`bg-violet-500 text-white font-semibold ${
+                index === 0 ? "rounded-tl-md" : ""
+              } ${
+                index === headerGroup.headers.length - 1 ? "rounded-tr-md" : ""
+              }`}
+            >
               {header.isPlaceholder ? null : header.id ==
                 "actions" ? null : header.id == "numbers" ? (
-                flexRender(header.column.columnDef.header, header.getContext())
+                <div className="text-center">
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+                </div>
               ) : (
-                <Button
-                  variant="ghost"
+                <div
+                  className="flex font-semibold bg-violet-500 hover:bg-violet-600 hover:cursor-pointer w-full h-full items-center"
                   onClick={() =>
                     header.column.toggleSorting(
                       header.column.getIsSorted() === "asc"
@@ -34,9 +45,14 @@ export function DataTableHeader<TData>({
                     header.column.columnDef.header,
                     header.getContext()
                   )}
-                  {header.id == "numbers"}
-                  <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
+                  {header.column.getIsSorted() === "asc" ? (
+                    <ArrowBigUp className="ml-2" />
+                  ) : header.column.getIsSorted() === "desc" ? (
+                    <ArrowBigDown className="ml-2" />
+                  ) : (
+                    ""
+                  )}
+                </div>
               )}
             </TableHead>
           ))}
