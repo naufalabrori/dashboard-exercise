@@ -9,10 +9,10 @@ import {
 } from "@tanstack/react-table";
 
 import { Table } from "@/components/ui/table";
-import { DataTableProps } from "./types";
-import { DataTablePagination } from "./pagination";
-import { DataTableHeader } from "./table-header";
-import { DataTableBody } from "./table-body";
+import { DataTableProps } from "../../../../table/types";
+import { DataTablePagination } from "@/components/table/pagination";
+import { DataTableHeader } from "../../../../table/table-header";
+import { DataTableBody } from "../../../../table/table-body";
 import { useTableData } from "@/hooks/use-table-data";
 import { useTablePagination } from "@/hooks/use-table-pagination";
 import { Input } from "@/components/ui/input";

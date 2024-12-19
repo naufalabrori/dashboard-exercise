@@ -10,18 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-
-export type OtherInboundHeader = {
-  id: string;
-  code: string;
-  businessPartner: string;
-  bpOrder: string;
-  remarks: string;
-  transactionStatus: "Open" | "Approved" | "Confirmed";
-  createdBy: string;
-  createdByName: string;
-  createdDate: string;
-};
+import { OtherInboundHeader } from "@/services/OtherInbound/types";
 
 export const otherInboundHeaderColumns: ColumnDef<OtherInboundHeader>[] = [
   // {
