@@ -11,5 +11,5 @@ export interface PaginationProps {
   total: number
   offset: number
   limit: number
-  onPageChange: (direction: 'prev' | 'next') => void
+  onPageChange: (direction: 'prev' | 'next' | number) => void
 }
