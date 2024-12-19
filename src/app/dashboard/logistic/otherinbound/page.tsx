@@ -11,7 +11,7 @@ export default function OtherInboundPage() {
   }, [setMenu]);
 
   return (
-    <div>
+    <div className="bg-white p-4 rounded-md shadow-lg">
       <OtherInboundHeaderDataTable />
     </div>
   );

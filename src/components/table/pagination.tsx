@@ -42,7 +42,7 @@ export function DataTablePagination({
 
   return (
     <div className="flex items-center justify-between space-x-2">
-      <div className="text-sm text-muted-foreground">
+      <div className="text-xs text-muted-foreground font-semibold">
         Showing {offset + 1} to {Math.min(offset + limit, total)} of {total} entries
       </div>
       <div className="flex items-center space-x-2">

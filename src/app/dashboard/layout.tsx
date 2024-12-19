@@ -61,17 +61,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <BreadcrumbItem className="hidden md:block">
                       {isDashboardChild ? (
                         <Link href="/dashboard">
-                          <BreadcrumbLink>Dashboard</BreadcrumbLink>
+                          <BreadcrumbLink className="font-bold">Dashboard</BreadcrumbLink>
                         </Link>
                       ) : (
-                        <BreadcrumbPage>Dashboard</BreadcrumbPage>
+                        <BreadcrumbPage className="font-bold">Dashboard</BreadcrumbPage>
                       )}
                     </BreadcrumbItem>
                     {isDashboardChild ? (
                       <>
                         <BreadcrumbSeparator className="hidden md:block" />
                         <BreadcrumbItem>
-                          <BreadcrumbPage>{menu}</BreadcrumbPage>
+                          <BreadcrumbPage className="font-bold">{menu}</BreadcrumbPage>
                         </BreadcrumbItem>
                       </>
                     ) : null}
@@ -80,7 +80,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </header>
 
               {/* Content */}
-              <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+              <div className="flex flex-1 flex-col gap-4 p-3 bg-gray-100">{children}</div>
             </SidebarInset>
           </main>
         </SidebarProvider>
