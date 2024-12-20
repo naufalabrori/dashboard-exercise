@@ -32,5 +32,7 @@ export function useListOtherInboundHeader<T extends OtherInboundHeaderResponse>(
   return useQuery<T>({
     queryKey: ["get-other-inbound-header", JSON.stringify(params)],
     queryFn: () => getOtherInboundHeader(params),
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false
   });
 }

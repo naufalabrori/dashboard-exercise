@@ -23,8 +23,13 @@ async function getRole<T>(params: RoleParams): Promise<T> {
 }
 
 export function useListRole<T extends RoleResponse>(params: RoleParams) {
+  const queryKey = ["get-roles-header", JSON.stringify(params)];
+
   return useQuery<T>({
-    queryKey: ["get-roles-header", JSON.stringify(params)],
+    queryKey,
     queryFn: () => getRole(params),
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false
   });
 }
+

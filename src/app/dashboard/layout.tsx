@@ -21,6 +21,9 @@ import { AUTH_COOKIES_KEY } from "@/lib/utils";
 import Link from "next/link";
 import useMenuStore from "@/hooks/useMenuStore";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
+const queryClient = new QueryClient();
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const cookies = new Cookies();
@@ -30,7 +33,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const { menu } = useMenuStore();
-  const queryClient = new QueryClient();
 
   useEffect(() => {
     const token = cookies.get(AUTH_COOKIES_KEY);
@@ -92,6 +94,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </SidebarInset>
           </main>
         </SidebarProvider>
+        <ReactQueryDevtools initialIsOpen={false}/>
       </QueryClientProvider>
     )
   );

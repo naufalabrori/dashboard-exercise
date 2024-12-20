@@ -47,9 +47,9 @@ function useTableData<TData>(
   const sortField = sorting[0];
   const params: any = {
     ...pagination,
-    orderBy: sortField?.id,
-    isDesc: sortField?.desc,
-    [filter.key]: filter.value,
+    orderBy: sortField?.id || "createdDate",
+    isDesc: sortField?.desc || false,
+    [filter.key]: filter.value || "",
   };
 
   const {
@@ -71,10 +71,10 @@ function useTableData<TData>(
 export function RoleDataTable() {
   const [totalData, setTotalData] = useState(0);
   const [limit, setLimit] = useState<string>("5");
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: "createdDate", desc: true}]);
   const [filterBy, setFilterBy] = useState<string>("code");
   const [filterValue, setFilterValue] = useState<string>("");
-  const [debounceFilter] = useDebounce(filterValue, 1500);
+  const [debounceFilter] = useDebounce(filterValue, 1000);
 
   const { pagination, totalPages, currentPage, handlePageChange } =
     useTablePagination(totalData, Number(limit));
