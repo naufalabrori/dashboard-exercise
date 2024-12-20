@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
 import { useState, useEffect } from "react";
 import {
   getCoreRowModel,
@@ -28,6 +27,7 @@ import { OtherInboundHeader } from "@/services/OtherInbound/types";
 import { useListOtherInboundHeader } from "@/services/OtherInbound/getListOtherInboundHeader";
 import { PaginationParams } from "@/lib/types";
 import { useTablePagination } from "@/hooks/use-table-pagination";
+import { useDebounce } from "use-debounce";
 
 interface UseTableDataReturn<TData> {
   data: TData[];
@@ -70,21 +70,21 @@ function useTableData<TData>(
 
 export function OtherInboundHeaderDataTable() {
   const [totalData, setTotalData] = useState(0);
-  const [filterBy, setFilterBy] = useState<string>("code");
-  const [filterValue, setFilterValue] = useState<string>("");
   const [limit, setLimit] = useState<string>("5");
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [filterBy, setFilterBy] = useState<string>("code");
+  const [filterValue, setFilterValue] = useState<string>("");
+  const [debounceFilter] = useDebounce(filterValue, 1500);
 
   const { pagination, totalPages, currentPage, handlePageChange } =
     useTablePagination(totalData, Number(limit));
 
-  // Memanggil hook untuk mendapatkan data dengan parameter sorting, pagination, dan filter
   const { data, total, loading, error } = useTableData<OtherInboundHeader>(
     sorting,
     pagination,
     {
       key: filterBy,
-      value: filterValue,
+      value: debounceFilter,
     }
   );
 
@@ -117,24 +117,19 @@ export function OtherInboundHeaderDataTable() {
 
   const handleLimitChange = (value: string) => {
     setLimit(value);
+    pagination.limit = Number(value);
     handlePageChange(0);
   };
 
-  const handleFilterChange = (key: string, value: string) => {
-    setFilterBy(key);
+  const handleFilterValueChange = (value: string) => {
     setFilterValue(value);
     handlePageChange(0);
   };
 
-  useEffect(() => {
-    pagination.limit = Number(limit);
-    handlePageChange(0);
-  }, [limit, filterBy, filterValue]);
-
   return (
     <div className="space-y-2 w-full">
-      <div className="flex justify-between">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
+        <div className="flex gap-2">
           <Select
             value={filterBy}
             onValueChange={(value) => {
@@ -156,10 +151,9 @@ export function OtherInboundHeaderDataTable() {
           </Select>
           <Input
             placeholder="Filter"
-            onChange={(event) =>
-              handleFilterChange(filterBy, event.target.value)
-            }
-            className="max-w-sm"
+            value={filterValue}
+            onChange={(event) => handleFilterValueChange(event.target.value)}
+            className="max-w-xs"
           />
         </div>
         <div className="flex">
@@ -185,7 +179,7 @@ export function OtherInboundHeaderDataTable() {
         </div>
       </div>
       <div className="rounded-md border">
-        <Table className="w-full overflow-y-auto">
+        <Table>
           <DataTableHeader headerGroups={table.getHeaderGroups()} />
           <DataTableBody
             loading={loading}

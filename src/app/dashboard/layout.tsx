@@ -50,7 +50,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <AppSidebar />
 
           {/* Main Content */}
-          <main className="flex flex-col flex-1">
+          <main className="flex flex-col flex-1 min-w-0">
             <SidebarInset>
               {/* Header */}
               <header className="flex sticky top-0 bg-background h-16 items-center gap-2 border-b px-4">
@@ -61,17 +61,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <BreadcrumbItem className="hidden md:block">
                       {isDashboardChild ? (
                         <Link href="/dashboard">
-                          <BreadcrumbLink className="font-bold">Dashboard</BreadcrumbLink>
+                          <BreadcrumbLink className="font-bold">
+                            Dashboard
+                          </BreadcrumbLink>
                         </Link>
                       ) : (
-                        <BreadcrumbPage className="font-bold">Dashboard</BreadcrumbPage>
+                        <BreadcrumbPage className="font-bold">
+                          Dashboard
+                        </BreadcrumbPage>
                       )}
                     </BreadcrumbItem>
                     {isDashboardChild ? (
                       <>
                         <BreadcrumbSeparator className="hidden md:block" />
                         <BreadcrumbItem>
-                          <BreadcrumbPage className="font-bold">{menu}</BreadcrumbPage>
+                          <BreadcrumbPage className="font-bold">
+                            {menu}
+                          </BreadcrumbPage>
                         </BreadcrumbItem>
                       </>
                     ) : null}
@@ -80,7 +86,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </header>
 
               {/* Content */}
-              <div className="flex flex-1 flex-col gap-4 p-3 bg-gray-100">{children}</div>
+              <div className="flex flex-1 flex-col gap-4 p-3 bg-gray-100">
+                {children}
+              </div>
             </SidebarInset>
           </main>
         </SidebarProvider>
