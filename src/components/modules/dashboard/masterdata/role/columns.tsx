@@ -1,19 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { Role } from "@/services/Role/types"; 
 import { useMemo } from "react";
 import { formatDateTime } from "@/lib/utils";
+import { DeleteRoleAlert } from "./Delete-Alert";
 
 interface ColumnRole {
   currentPage: number;
@@ -73,20 +65,12 @@ export const RoleColumns = ({
       {
         id: "actions",
         header: "Action",
-        cell: () => {
+        cell: ({row}) => {
+          const id = row.original.id;
           return (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>View</DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <>
+              <DeleteRoleAlert id={id as string} />
+            </>
           );
         },
       },
