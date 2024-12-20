@@ -46,9 +46,9 @@ export function DataTableHeader<TData>({
                     header.getContext()
                   )}
                   {header.column.getIsSorted() === "asc" ? (
-                    <ArrowBigUp className="ml-2" />
-                  ) : header.column.getIsSorted() === "desc" ? (
                     <ArrowBigDown className="ml-2" />
+                  ) : header.column.getIsSorted() === "desc" ? (
+                    <ArrowBigUp className="ml-2" />
                   ) : (
                     ""
                   )}
