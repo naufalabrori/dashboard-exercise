@@ -22,6 +22,7 @@ import Link from "next/link";
 import useMenuStore from "@/hooks/useMenuStore";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ToastContainer } from "react-toastify";
 
 const queryClient = new QueryClient();
 
@@ -95,6 +96,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </main>
         </SidebarProvider>
         <ReactQueryDevtools initialIsOpen={false}/>
+        <ToastContainer/>
       </QueryClientProvider>
     )
   );

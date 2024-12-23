@@ -12,17 +12,16 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
 import { useDeleteRole } from "@/services/Role/deleteRole";
 import { useQueryClient } from "@tanstack/react-query";
 import { Trash2Icon } from "lucide-react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export function DeleteRoleAlert({ id }: { id: string }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false); // Control dialog visibility
   const queryClient = useQueryClient();
   
-  const { toast } = useToast();
   const { mutate, isSuccess, isError } = useDeleteRole();
   
     const handleSubmit = () => {
@@ -31,16 +30,16 @@ export function DeleteRoleAlert({ id }: { id: string }) {
           queryClient.invalidateQueries({
             queryKey: ["get-roles-header"],
           });
-          toast({ title: "Success", description: "Role created" });
+          toast("Role Deleted", { type: "success" });
         },
         onError: (error: any) => {
-          toast({
-            variant: "destructive",
-            title: "Failed",
-            description:
-              error?.response?.data?.detail ||
+          toast(
+            error?.response?.data?.detail ||
               "Terjadi kesalahan, silakan coba beberapa saat lagi.",
-          });
+            {
+              type: "error",
+            }
+          );
         },
       });
       setIsDialogOpen(false);
