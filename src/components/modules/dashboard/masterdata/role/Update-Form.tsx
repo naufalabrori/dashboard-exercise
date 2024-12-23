@@ -90,7 +90,7 @@ export function UpdateRoleForm({ data }: { data: RoleFormValues }) {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button
-          className="mb-2 bg-yellow-500 hover:bg-yellow-500 ml-2"
+          className="mb-2 bg-yellow-500 hover:bg-yellow-600 mr-1"
           onClick={() => setIsDialogOpen(true)}
         >
           <PenIcon />
@@ -125,6 +125,8 @@ export function UpdateRoleForm({ data }: { data: RoleFormValues }) {
               onCheckedChange={(checked) =>
                 setForm((prev) => ({ ...prev, isActive: checked }))
               }
+              negativeText="No"
+              positiveText="Yes"
             />
           </div>
         </div>

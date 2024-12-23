@@ -5,14 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Role } from "@/services/Role/types"; 
 import { useMemo } from "react";
 import { formatDateTime } from "@/lib/utils";
-import { DeleteRoleAlert } from "./Delete-Alert";
-import { UpdateRoleForm } from "./Update-Form";
-import { Button } from "@/components/ui/button";
-import { EyeIcon } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 
-interface ColumnRole {
+interface ColumnRoleDetail {
   currentPage: number;
   perPage: number;
 }
@@ -20,8 +14,7 @@ interface ColumnRole {
 export const RoleColumns = ({
   currentPage,
   perPage,
-}: ColumnRole) => {
-  const pathname = usePathname();
+}: ColumnRoleDetail) => {
   const columns = useMemo<ColumnDef<any, Role>[]>(
     () => [
       {
@@ -34,12 +27,34 @@ export const RoleColumns = ({
         }
       },
       {
-        accessorKey: "code",
-        header: () => "Code",
+        accessorKey: "application",
+        header: () => "Application",
       },
       {
-        accessorKey: "name",
-        header: () => "Role Name",
+        accessorKey: "menuGroup",
+        header: () => "Group Feature",
+      },
+      {
+        accessorKey: "feature",
+        header: () => "Feature",
+      },
+      {
+        accessorKey: "permission",
+        header: "Permission",
+        cell: ({ row }) => {
+          const status = row.getValue("permission");
+          return (
+            <Badge
+              className={
+                !status
+                  ? "bg-red-500 hover:bg-red-600"
+                  : "bg-green-500 hover:bg-green-600"
+              }
+            >
+              {status ? "Permitted" : "Not Permitted"}
+            </Badge>
+          );
+        },
       },
       {
         accessorKey: "isActive",
@@ -69,43 +84,16 @@ export const RoleColumns = ({
         cell: ({ row }) => formatDateTime(row.getValue("createdDate"))
       },
       {
-        id: "actions",
-        header: "Action",
-        cell: (info) => {
-          const {
-            id,
-            code,
-            name,
-            isActive,
-            createdBy,
-            createdByName,
-            createdDate
-          } = info.row.original;
-
-          const masterData = {
-            id,
-            code,
-            name,
-            isActive,
-            createdBy,
-            createdByName,
-            createdDate
-          };
-          return (
-            <>
-              <Link href={`${pathname}/${id}`}>
-                <Button className="mr-1 bg-blue-500 hover:bg-blue-600">
-                  <EyeIcon/>
-                </Button>
-              </Link>
-              <UpdateRoleForm data={masterData}  />
-              <DeleteRoleAlert id={id as string} />
-            </>
-          );
-        },
+        accessorKey: "modifiedByName",
+        header: () => "Modified By",
+      },
+      {
+        accessorKey: "modifiedDate",
+        header: () => "Modified Date",
+        cell: ({ row }) => formatDateTime(row.getValue("modifiedDate"))
       },
     ],
-    [currentPage, perPage, pathname]
+    [currentPage, perPage]
   );
 
   return columns;
