@@ -17,7 +17,6 @@ import { ChangeEvent, useState } from "react";
 import { z } from "zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCreateRole } from "@/services/Role/createRole";
-import { useToast } from "@/hooks/use-toast";
 import { Select } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "react-toastify";

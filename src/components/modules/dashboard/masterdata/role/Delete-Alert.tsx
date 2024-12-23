@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 export function DeleteRoleAlert({ id }: { id: string }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false); // Control dialog visibility
   const queryClient = useQueryClient();
-  
+
   const { mutate, isSuccess, isError } = useDeleteRole();
   
     const handleSubmit = () => {
@@ -40,6 +40,7 @@ export function DeleteRoleAlert({ id }: { id: string }) {
               type: "error",
             }
           );
+
         },
       });
       setIsDialogOpen(false);
