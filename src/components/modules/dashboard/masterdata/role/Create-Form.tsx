@@ -89,7 +89,7 @@ export function CreateRoleForm() {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button
-          className="mb-2 bg-violet-500 hover:bg-violet-500"
+          className="mb-2 bg-violet-500 hover:bg-violet-600"
           onClick={() => setIsDialogOpen(true)}
         >
           <PlusIcon />
@@ -125,6 +125,8 @@ export function CreateRoleForm() {
               onCheckedChange={(checked) =>
                 setForm((prev) => ({ ...prev, isActive: checked }))
               }
+              negativeText="No"
+              positiveText="Yes"
             />
           </div>
         </div>
