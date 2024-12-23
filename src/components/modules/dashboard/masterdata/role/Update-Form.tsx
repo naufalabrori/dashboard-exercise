@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PlusIcon } from "lucide-react";
+import { PenIcon, PlusIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,11 +13,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { z } from "zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCreateRole } from "@/services/Role/createRole";
-import { Select } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "react-toastify";
 
@@ -28,12 +27,17 @@ const roleSchema = z.object({
 
 type RoleFormValues = z.infer<typeof roleSchema>;
 
-export function CreateRoleForm() {
-  const [form, setForm] = useState<Partial<RoleFormValues>>({});
+export function UpdateRoleForm({ data }: { data: RoleFormValues }) {
+  const [form, setForm] = useState<Partial<RoleFormValues>>(data);
   const [errors, setErrors] = useState<
     Partial<Record<keyof RoleFormValues, string>>
   >({});
-  const [isDialogOpen, setIsDialogOpen] = useState(false); // Control dialog visibility
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  useEffect(() => {
+    setForm(data);
+  }, [data]);
+
   const queryClient = useQueryClient();
 
   const onChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +45,7 @@ export function CreateRoleForm() {
     setForm((prev) => ({ ...prev, [name]: value }));
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: undefined, // Clear the error when user starts typing
+      [name]: undefined,
     }));
   };
 
@@ -66,7 +70,7 @@ export function CreateRoleForm() {
           queryClient.invalidateQueries({
             queryKey: ["get-roles-header"],
           });
-          toast("Role Created", { type: "success" });
+          toast("Role Updated", { type: "success" });
         },
         onError: (error: any) => {
           toast(
@@ -78,9 +82,6 @@ export function CreateRoleForm() {
           );
         },
       });
-      // Clear form and errors
-      setForm({});
-      setErrors({});
       setIsDialogOpen(false); // Close dialog after success
     }
   };
@@ -89,16 +90,15 @@ export function CreateRoleForm() {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button
-          className="mb-2 bg-violet-500 hover:bg-violet-500"
+          className="mb-2 bg-yellow-500 hover:bg-yellow-500 ml-2"
           onClick={() => setIsDialogOpen(true)}
         >
-          <PlusIcon />
-          Create
+          <PenIcon />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle>Create Role</DialogTitle>
+          <DialogTitle>Update Role</DialogTitle>
         </DialogHeader>
         <div className="grid grid-cols-5 gap-3">
           <div className="col-span-2">Role Name</div>
@@ -135,7 +135,7 @@ export function CreateRoleForm() {
             </Button>
           </DialogClose>
           <Button type="submit" onClick={handleSubmit}>
-            Submit
+            Update
           </Button>
         </DialogFooter>
       </DialogContent>
