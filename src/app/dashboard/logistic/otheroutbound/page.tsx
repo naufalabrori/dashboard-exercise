@@ -1,16 +1,19 @@
 "use client";
-import useMenuStore from '@/hooks/useMenuStore';
-import React, { useEffect } from 'react'
+import { OtherOutboundHeaderDataTable } from "@/components/modules/dashboard/logistic/OtherOutbound/data-table";
+import useMenuStore from "@/hooks/useMenuStore";
+import React, { useEffect } from "react";
 
 const OtherOutboundPage = () => {
   const { setMenu } = useMenuStore();
   useEffect(() => {
-    setMenu("Other Outbound")
-  }, [setMenu])
+    setMenu("Other Outbound");
+  }, [setMenu]);
 
   return (
-    <div>OtherOutbound Page</div>
-  )
-}
+    <div className="bg-white p-4 rounded-md shadow-lg">
+      <OtherOutboundHeaderDataTable />
+    </div>
+  );
+};
 
 export default OtherOutboundPage;
