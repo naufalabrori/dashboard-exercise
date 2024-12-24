@@ -13,8 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { login } from "@/services/User/auth";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export function LoginForm({
   className,
@@ -24,16 +24,17 @@ export function LoginForm({
   const [password, setPassword] = useState("");
 
   const router = useRouter();
-  const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const { success, message } = await login(username, password);
     if (success) {
-      toast({ title: "Login Success", description: message });
+      toast("Login Success", { type: "success" });
       router.push("/dashboard");
     } else {
-      toast({ variant: "destructive", title: "Login Failed", description: message });
+      toast(message, {
+        type: "error",
+      });
     }
   };
 
