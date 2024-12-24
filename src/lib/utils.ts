@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -39,3 +40,25 @@ export const formatDateTime = (isoString: string) => {
 
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 };
+
+export function objectToFormData(obj: any) {
+  const formData = new FormData();
+
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key];
+      if (value instanceof Object && !Array.isArray(value)) {
+        for (const nestedKey in value) {
+          if (value.hasOwnProperty(nestedKey)) {
+            const nestedValue = value[nestedKey];
+            formData.append(`${key}[${nestedKey}]`, nestedValue);
+          }
+        }
+      } else {
+        formData.append(key, value);
+      }
+    }
+  }
+
+  return formData;
+}

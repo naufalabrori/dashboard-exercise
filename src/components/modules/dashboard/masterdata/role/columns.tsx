@@ -94,7 +94,7 @@ export const RoleColumns = ({
           return (
             <>
               <Link href={`${pathname}/${id}`}>
-                <Button className="mr-1 bg-blue-500 hover:bg-blue-600">
+                <Button className="mr-1 bg-blue-500 hover:bg-blue-600 p-3">
                   <EyeIcon/>
                 </Button>
               </Link>

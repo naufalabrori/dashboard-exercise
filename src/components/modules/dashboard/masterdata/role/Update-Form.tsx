@@ -97,7 +97,7 @@ export function UpdateRoleForm({ data }: { data: RoleFormValues }) {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-xl">
-        <DialogHeader>
+        <DialogHeader className="mb-2">
           <DialogTitle>Update Role</DialogTitle>
         </DialogHeader>
         <div className="grid grid-cols-5 gap-3">
