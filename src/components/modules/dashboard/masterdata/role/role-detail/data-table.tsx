@@ -206,7 +206,7 @@ export function RoleDetailDataTable({headerId}: {headerId: string}) {
         onPageChange={handlePageChange}
       />
       <Button 
-        className="border-2 border-violet-500 bg-white text-violet-500 font-bold hover:bg-violet-50 mt-4"
+        className="border-2 border-violet-500 bg-white text-violet-500 hover:bg-violet-50 mt-4"
         onClick={() => router.back()}>
         <ArrowLeft className="text-violet-500" />
         Back
