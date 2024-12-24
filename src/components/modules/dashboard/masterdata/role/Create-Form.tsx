@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PlusIcon } from "lucide-react";
+import { Loader2, PlusIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -45,7 +45,7 @@ export function CreateRoleForm() {
     }));
   };
 
-  const { mutate, isSuccess, isError } = useCreateRole();
+  const { mutate, isPending } = useCreateRole();
 
   const handleSubmit = () => {
     const result = roleSchema.safeParse(form);
@@ -139,8 +139,8 @@ export function CreateRoleForm() {
               Close
             </Button>
           </DialogClose>
-          <Button type="submit" onClick={handleSubmit}>
-            Submit
+          <Button type="submit" onClick={handleSubmit} disabled={isPending}>
+          { isPending ? <Loader2 className="animate-spin" /> : "Submit"}
           </Button>
         </DialogFooter>
       </DialogContent>

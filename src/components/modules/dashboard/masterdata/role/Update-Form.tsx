@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PenIcon, PlusIcon } from "lucide-react";
+import { Loader2, PenIcon, PlusIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -49,7 +49,7 @@ export function UpdateRoleForm({ data }: { data: RoleFormValues }) {
     }));
   };
 
-  const { mutate, isSuccess, isError } = useCreateRole();
+  const { mutate, isPending } = useCreateRole();
 
   const handleSubmit = () => {
     const result = roleSchema.safeParse(form);
@@ -136,8 +136,8 @@ export function UpdateRoleForm({ data }: { data: RoleFormValues }) {
               Close
             </Button>
           </DialogClose>
-          <Button type="submit" onClick={handleSubmit}>
-            Update
+          <Button type="submit" onClick={handleSubmit} disabled={isPending}>
+            { isPending ? <Loader2 className="animate-spin" /> : "Update"}
           </Button>
         </DialogFooter>
       </DialogContent>
