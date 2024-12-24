@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, FolderOpen, Warehouse } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -21,10 +21,11 @@ import {
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
-const items = [
+const menus = [
   {
     title: "Master Data",
     url: "masterdata",
+    icon: <FolderOpen />,
     items: [
       {
         title: "User",
@@ -39,6 +40,7 @@ const items = [
   {
     title: "Logistic",
     url: "logistic",
+    icon: <Warehouse />,
     items: [
       {
         title: "Inbound",
@@ -64,7 +66,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar {...props}>
       <SidebarHeader></SidebarHeader>
       <SidebarContent className="gap-0">
-        {items.map((item) => (
+        {menus.map((item) => (
           <Collapsible
             key={item.title}
             title={item.title}
@@ -77,6 +79,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               >
                 <CollapsibleTrigger>
+                  <div className="flex mr-2">{item.icon}</div>
                   {item.title}{" "}
                   <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                 </CollapsibleTrigger>
@@ -89,9 +92,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         <SidebarMenuButton
                           asChild
                           isActive={pathname.includes(item.url)}
-                          className="pl-6"
+                          className="pl-8"
                         >
-                          <Link href={`/dashboard${item.url}`}>{item.title}</Link>
+                          <Link href={`/dashboard${item.url}`}>
+                            {item.title}
+                          </Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     ))}

@@ -138,6 +138,7 @@ export function CreateUserForm({ data }: { data: User | null }) {
           onClick={() => {
             setIsDialogOpen(true);
             setForm({});
+            setErrors({});
           }}
         >
           <PlusIcon />

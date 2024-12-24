@@ -91,8 +91,9 @@ export function CreateRoleForm() {
         <Button
           className="mb-2 bg-violet-500 hover:bg-violet-600"
           onClick={() => {
-            setIsDialogOpen(true)
-            setForm({})
+            setIsDialogOpen(true);
+            setForm({});
+            setErrors({});
           }}
         >
           <PlusIcon />
@@ -140,7 +141,7 @@ export function CreateRoleForm() {
             </Button>
           </DialogClose>
           <Button type="submit" onClick={handleSubmit} disabled={isPending}>
-          { isPending ? <Loader2 className="animate-spin" /> : "Submit"}
+            {isPending ? <Loader2 className="animate-spin" /> : "Submit"}
           </Button>
         </DialogFooter>
       </DialogContent>

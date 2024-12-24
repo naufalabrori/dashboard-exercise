@@ -68,7 +68,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <main className="flex flex-col flex-1 min-w-0">
             <SidebarInset>
               {/* Header */}
-              <header className="flex sticky top-0 bg-background h-16 items-center gap-2 border-b px-4 justify-between">
+              <header className="flex sticky top-0 bg-white z-10 h-16 items-center gap-2 border-b px-4 justify-between">
                 <div className="flex items-center gap-2">
                   <SidebarTrigger className="-ml-1" />
                   <Separator orientation="vertical" className="mr-2 h-4" />
