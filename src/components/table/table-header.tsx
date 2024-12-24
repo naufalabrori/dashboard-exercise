@@ -22,7 +22,7 @@ export function DataTableHeader<TData>({
                 index === 0 ? "rounded-tl-md" : ""
               } ${
                 index === headerGroup.headers.length - 1 ? "rounded-tr-md" : ""
-              }`}
+              } overflow-hidden text-ellipsis whitespace-nowrap`}
             >
               {header.isPlaceholder ? null : header.id ==
                 "actions" ? null : header.id == "numbers" ? (

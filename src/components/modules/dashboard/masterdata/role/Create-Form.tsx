@@ -90,14 +90,17 @@ export function CreateRoleForm() {
       <DialogTrigger asChild>
         <Button
           className="mb-2 bg-violet-500 hover:bg-violet-600"
-          onClick={() => setIsDialogOpen(true)}
+          onClick={() => {
+            setIsDialogOpen(true)
+            setForm({})
+          }}
         >
           <PlusIcon />
           Create
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-xl">
-        <DialogHeader>
+        <DialogHeader className="mb-2">
           <DialogTitle>Create Role</DialogTitle>
         </DialogHeader>
         <div className="grid grid-cols-5 gap-3">
