@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { ChevronRight, LogOut } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -18,8 +18,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { logout } from "@/services/User/auth";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const items = [
@@ -59,13 +58,7 @@ const items = [
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const router = useRouter();
   const pathname = usePathname();
-
-  const handleLogout = () => {
-    logout();
-    router.push("/auth/login");
-  };
 
   return (
     <Sidebar {...props}>
@@ -108,18 +101,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarGroup>
           </Collapsible>
         ))}
-        {/* Tambahkan tombol Logout */}
-        <SidebarMenuItem>
-          <SidebarMenuButton asChild>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 w-full text-red-500 hover:text-red-600"
-            >
-              <LogOut />
-              <span>Logout</span>
-            </button>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
