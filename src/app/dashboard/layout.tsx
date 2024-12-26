@@ -47,7 +47,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     if (token) {
       setIsAuth(true);
     } else {
-      localStorage.clear();
+      logout();
       router.push("/auth/login");
     }
   }, [router]);

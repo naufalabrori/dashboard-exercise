@@ -15,6 +15,7 @@ import { login } from "@/services/User/auth";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { Loader2 } from "lucide-react";
 
 export function LoginForm({
   className,
@@ -22,19 +23,23 @@ export function LoginForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     const { success, message } = await login(username, password);
     if (success) {
       toast("Login Success", { type: "success" });
+      setLoading(false);
       router.push("/dashboard");
     } else {
       toast(message, {
         type: "error",
       });
+      setLoading(false);
     }
   };
 
@@ -82,12 +87,10 @@ export function LoginForm({
                 type="submit"
                 className="w-full bg-blue-500 hover:bg-blue-600"
                 onClick={handleLogin}
+                disabled={loading}
               >
-                Login
+                {loading ? <Loader2 className="animate-spin" /> : "Login"}
               </Button>
-              {/* <Button variant="outline" className="w-full">
-                Login with Google
-              </Button> */}
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
