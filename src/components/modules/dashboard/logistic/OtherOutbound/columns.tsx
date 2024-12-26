@@ -54,7 +54,7 @@ export const OtherOutboundHeaderColumns = ({ currentPage, perPage }: ColumnOther
           return (
             <Badge
               className={
-                status === "Closed"
+                status === "Closed" || status === "Cancelled"
                   ? "bg-red-500 hover:bg-red-600"
                   : "bg-green-500 hover:bg-green-600"
               }

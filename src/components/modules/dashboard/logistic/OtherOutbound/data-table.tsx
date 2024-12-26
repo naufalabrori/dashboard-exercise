@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/select";
 import { NumberOfShowTable } from "@/lib/utils";
 import { OtherOutboundHeaderColumns } from "./columns";
-import { OtherOutboundHeader } from "@/services/OtherOutbound/types"; 
+import { OtherOutboundHeader } from "@/services/OtherOutbound/types";
 import { useListOtherOutboundHeader } from "@/services/OtherOutbound/getListOtherOutboundHeader";
 import { PaginationParams } from "@/lib/types";
 import { useTablePagination } from "@/hooks/use-table-pagination";
@@ -39,7 +39,8 @@ interface UseTableDataReturn<TData> {
 function useTableData<TData>(
   sorting: SortingState,
   pagination: PaginationParams,
-  filter: any
+  filter: any,
+  transactionStatus: string
 ): UseTableDataReturn<TData> {
   const [data, setData] = useState<TData[]>([]);
   const [total, setTotal] = useState(0);
@@ -50,9 +51,14 @@ function useTableData<TData>(
     orderBy: sortField?.id || "createdDate",
     isDesc: sortField?.desc || false,
     [filter.key]: filter.value || "",
+    transactionStatus: transactionStatus,
   };
 
-  const { data: queryData, error, isLoading } = useListOtherOutboundHeader(params);
+  const {
+    data: queryData,
+    error,
+    isLoading,
+  } = useListOtherOutboundHeader(params);
 
   useEffect(() => {
     if (queryData) {
@@ -73,6 +79,9 @@ export function OtherOutboundHeaderDataTable() {
   const [filterBy, setFilterBy] = useState<string>("code");
   const [filterValue, setFilterValue] = useState<string>("");
   const [debounceFilter] = useDebounce(filterValue, 1000);
+  const [transactionStatus, setTransactionStatus] = useState<string>(
+    "Open/Confirmed/Approved"
+  );
 
   const { pagination, totalPages, currentPage, handlePageChange } =
     useTablePagination(totalData, Number(limit));
@@ -83,13 +92,15 @@ export function OtherOutboundHeaderDataTable() {
     {
       key: filterBy,
       value: debounceFilter,
-    }
+    },
+    transactionStatus
   );
 
-  const columns: ColumnDef<any, OtherOutboundHeader>[] = OtherOutboundHeaderColumns({
-    currentPage,
-    perPage: Number(limit),
-  });
+  const columns: ColumnDef<any, OtherOutboundHeader>[] =
+    OtherOutboundHeaderColumns({
+      currentPage,
+      perPage: Number(limit),
+    });
 
   const table = useReactTable({
     data,
@@ -107,6 +118,15 @@ export function OtherOutboundHeaderDataTable() {
     { key: "bussinessPartner", value: "Bussiness Partner" },
     { key: "bpOrder", value: "BP Order" },
     { key: "remarks", value: "Remarks" },
+  ];
+
+  const transactionStatusFiltering = [
+    { key: "Open/Confirmed/Approved", value: "Open/Confirmed/Approved" },
+    { key: "Open", value: "Open" },
+    { key: "Confirmed", value: "Confirmed" },
+    { key: "Approved", value: "Approved" },
+    { key: "Cancelled", value: "Cancelled" },
+    { key: "Closed", value: "Closed" },
   ];
 
   useEffect(() => {
@@ -127,32 +147,55 @@ export function OtherOutboundHeaderDataTable() {
   return (
     <div className="space-y-2 w-full">
       <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
-        <div className="flex gap-2">
-          <Select
-            value={filterBy}
-            onValueChange={(value) => {
-              setFilterBy(value);
-            }}
-          >
-            <SelectTrigger className="w-32">
-              <SelectValue placeholder="Select one" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {dataColumnFiltering.map((coll) => (
-                  <SelectItem key={coll.key} value={coll.key}>
-                    {coll.value}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          <Input
-            placeholder="Filter"
-            value={filterValue}
-            onChange={(event) => handleFilterValueChange(event.target.value)}
-            className="max-w-xs"
-          />
+        <div>
+          <div className="flex gap-2 mb-2">
+            <Select
+              value={filterBy}
+              onValueChange={(value) => {
+                setFilterBy(value);
+              }}
+            >
+              <SelectTrigger className="w-32">
+                <SelectValue placeholder="Select one" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {dataColumnFiltering.map((coll) => (
+                    <SelectItem key={coll.key} value={coll.key}>
+                      {coll.value}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            <Input
+              placeholder="Filter"
+              value={filterValue}
+              onChange={(event) => handleFilterValueChange(event.target.value)}
+              className="max-w-xs"
+            />
+          </div>
+          <div className="flex">
+            <Select
+              value={transactionStatus}
+              onValueChange={(value) => {
+                setTransactionStatus(value);
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select transaction Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {transactionStatusFiltering.map((coll) => (
+                    <SelectItem key={coll.key} value={coll.key}>
+                      {coll.value}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         <div className="flex">
           <div className="mr-2 mt-2 text-sm">Show</div>

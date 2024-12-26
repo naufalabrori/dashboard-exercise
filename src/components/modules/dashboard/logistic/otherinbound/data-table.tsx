@@ -39,7 +39,8 @@ interface UseTableDataReturn<TData> {
 function useTableData<TData>(
   sorting: SortingState,
   pagination: PaginationParams,
-  filter: any
+  filter: any,
+  transactionStatus: string
 ): UseTableDataReturn<TData> {
   const [data, setData] = useState<TData[]>([]);
   const [total, setTotal] = useState(0);
@@ -50,6 +51,7 @@ function useTableData<TData>(
     orderBy: sortField?.id,
     isDesc: sortField?.desc,
     [filter.key]: filter.value,
+    transactionStatus: transactionStatus,
   };
 
   const {
@@ -74,7 +76,10 @@ export function OtherInboundHeaderDataTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [filterBy, setFilterBy] = useState<string>("code");
   const [filterValue, setFilterValue] = useState<string>("");
-  const [debounceFilter] = useDebounce(filterValue, 1500);
+  const [debounceFilter] = useDebounce(filterValue, 1000);
+  const [transactionStatus, setTransactionStatus] = useState<string>(
+    "Open/Confirmed/Approved"
+  );
 
   const { pagination, totalPages, currentPage, handlePageChange } =
     useTablePagination(totalData, Number(limit));
@@ -85,7 +90,8 @@ export function OtherInboundHeaderDataTable() {
     {
       key: filterBy,
       value: debounceFilter,
-    }
+    },
+    transactionStatus
   );
 
   const columns: ColumnDef<any, OtherInboundHeader>[] =
@@ -111,6 +117,15 @@ export function OtherInboundHeaderDataTable() {
     { key: "bpOrder", value: "BP Order" },
   ];
 
+  const transactionStatusFiltering = [
+    { key: "Open/Confirmed/Approved", value: "Open/Confirmed/Approved" },
+    { key: "Open", value: "Open" },
+    { key: "Confirmed", value: "Confirmed" },
+    { key: "Approved", value: "Approved" },
+    { key: "Cancelled", value: "Cancelled" },
+    { key: "Closed", value: "Closed" },
+  ];
+
   useEffect(() => {
     setTotalData(total);
   }, [total]);
@@ -129,32 +144,55 @@ export function OtherInboundHeaderDataTable() {
   return (
     <div className="space-y-2 w-full">
       <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
-        <div className="flex gap-2">
-          <Select
-            value={filterBy}
-            onValueChange={(value) => {
-              setFilterBy(value);
-            }}
-          >
-            <SelectTrigger className="w-32">
-              <SelectValue placeholder="Select one" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {dataColumnFiltering.map((coll) => (
-                  <SelectItem key={coll.key} value={coll.key}>
-                    {coll.value}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          <Input
-            placeholder="Filter"
-            value={filterValue}
-            onChange={(event) => handleFilterValueChange(event.target.value)}
-            className="max-w-xs"
-          />
+        <div>
+          <div className="flex gap-2 mb-2">
+            <Select
+              value={filterBy}
+              onValueChange={(value) => {
+                setFilterBy(value);
+              }}
+            >
+              <SelectTrigger className="w-32">
+                <SelectValue placeholder="Select one" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {dataColumnFiltering.map((coll) => (
+                    <SelectItem key={coll.key} value={coll.key}>
+                      {coll.value}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            <Input
+              placeholder="Filter"
+              value={filterValue}
+              onChange={(event) => handleFilterValueChange(event.target.value)}
+              className="max-w-xs"
+            />
+          </div>
+          <div className="flex">
+            <Select
+              value={transactionStatus}
+              onValueChange={(value) => {
+                setTransactionStatus(value);
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select transaction Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {transactionStatusFiltering.map((coll) => (
+                    <SelectItem key={coll.key} value={coll.key}>
+                      {coll.value}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         <div className="flex">
           <div className="mr-2 mt-2 text-sm">Show</div>
