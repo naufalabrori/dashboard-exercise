@@ -10,8 +10,8 @@ import {
 
 import { Table } from "@/components/ui/table";
 import { DataTablePagination } from "@/components/table/pagination";
-import { DataTableHeader } from "../../../../table/table-header";
-import { DataTableBody } from "../../../../table/table-body";
+import { DataTableHeader } from "../../../../../table/table-header";
+import { DataTableBody } from "../../../../../table/table-body";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -23,8 +23,8 @@ import {
 } from "@/components/ui/select";
 import { NumberOfShowTable } from "@/lib/utils";
 import { OtherInboundHeaderColumns } from "./columns";
-import { OtherInboundHeader } from "@/services/OtherInbound/types";
-import { useListOtherInboundHeader } from "@/services/OtherInbound/getListOtherInboundHeader";
+import { OtherInboundHeader } from "@/services/OtherInbound/Header/types";
+import { useListOtherInboundHeader } from "@/services/OtherInbound/Header/getListOtherInboundHeader";
 import { PaginationParams } from "@/lib/types";
 import { useTablePagination } from "@/hooks/use-table-pagination";
 import { useDebounce } from "use-debounce";

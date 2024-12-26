@@ -4,7 +4,11 @@ export type OtherInboundHeader = {
   businessPartner: string;
   bpOrder: string;
   remarks: string;
-  transactionStatus: "Open" | "Approved" | "Confirmed";
+  transactionStatus: string;
+  confirmedBy: string;
+  confirmedOn: string;
+  approvedBy: string;
+  approvedOn: string;
   createdBy: string;
   createdByName: string;
   createdDate: string;

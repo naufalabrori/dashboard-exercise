@@ -1,18 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { OtherInboundHeader } from "@/services/OtherInbound/types";
+import { OtherInboundHeader } from "@/services/OtherInbound/Header/types";
 import { useMemo } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { EyeIcon } from "lucide-react";
 
 interface ColumnOtherInboundHeader {
   currentPage: number;
@@ -23,6 +18,7 @@ export const OtherInboundHeaderColumns = ({
   currentPage,
   perPage,
 }: ColumnOtherInboundHeader) => {
+  const pathname = usePathname();
   const columns = useMemo<ColumnDef<any, OtherInboundHeader>[]>(
     () => [
       {
@@ -30,9 +26,11 @@ export const OtherInboundHeaderColumns = ({
         header: "No",
         cell: (info) => {
           return (
-            <div className="text-center">{perPage * (currentPage - 1) + (info?.row.index + 1)}</div>
-          )
-        }
+            <div className="text-center">
+              {perPage * (currentPage - 1) + (info?.row.index + 1)}
+            </div>
+          );
+        },
       },
       {
         accessorKey: "code",
@@ -71,25 +69,22 @@ export const OtherInboundHeaderColumns = ({
       {
         id: "actions",
         header: "Action",
-        cell: () => {
+        cell: (info) => {
+          const { id } = info.row.original;
+
           return (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
-                  <MoreHorizontal className="h-4 w-4" />
+            <>
+              <Link href={`${pathname}/${id}`}>
+                <Button className="mr-1 bg-blue-500 hover:bg-blue-600 p-3">
+                  <EyeIcon />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>View</DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </Link>
+            </>
           );
         },
       },
     ],
-    [currentPage, perPage]
+    [currentPage, perPage, pathname]
   );
 
   return columns;

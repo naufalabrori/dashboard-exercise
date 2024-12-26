@@ -1,4 +1,5 @@
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useGetRoleById } from "@/services/Role/getRoleById";
 import { Role } from "@/services/Role/types";
@@ -16,8 +17,9 @@ export function RoleForm({ id }: { id: string }) {
 
   return (
     <div className="p-5">
-      <div className="text-xl font-bold mb-6">Role</div>
-      <div className="grid grid-cols-12 gap-3">
+      <div className="text-xl font-bold mb-3">Role</div>
+      <Separator/>
+      <div className="grid grid-cols-12 gap-3 mt-3">
         <div className="col-span-12 md:col-span-3 text-sm font-bold">Code</div>
         <div className="col-span-12 md:col-span-9">
           <Input
