@@ -6,6 +6,7 @@ import { Role } from "@/services/Role/types";
 import { useMemo } from "react";
 import { formatDateTime } from "@/lib/utils";
 import { UpdateRoleDetailForm } from "./UpdateForm";
+import { DeleteRoleDetailAlert } from "./DeleteAlert";
 
 interface ColumnRoleDetail {
   currentPage: number;
@@ -127,6 +128,7 @@ export const RoleColumns = ({
           return (
             <>
               <UpdateRoleDetailForm data={masterData}  />
+              <DeleteRoleDetailAlert id={id} />
             </>
           );
         },
