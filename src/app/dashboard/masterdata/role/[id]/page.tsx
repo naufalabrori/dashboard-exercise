@@ -1,4 +1,5 @@
 "use client";
+import { CreateRoleDetailForm } from "@/components/modules/dashboard/masterdata/role/role-detail/CreateForm";
 import { RoleDetailDataTable } from "@/components/modules/dashboard/masterdata/role/role-detail/data-table";
 import { RoleForm } from "@/components/modules/dashboard/masterdata/role/RoleForm";
 import useMenuStore from "@/hooks/useMenuStore";
@@ -17,6 +18,7 @@ const RolePageByID = ({ params }: { params: { id: string } }) => {
         <RoleForm id={params.id} />
       </div>
       <div className="bg-white p-9 rounded-md shadow-lg">
+        <CreateRoleDetailForm headerId={params.id} />
         <RoleDetailDataTable headerId={params.id} />
       </div>
     </>

@@ -25,7 +25,7 @@ export function DataTableHeader<TData>({
               } overflow-hidden text-ellipsis whitespace-nowrap`}
             >
               {header.isPlaceholder ? null : header.id ==
-                "actions" ? null : header.id == "numbers" ? (
+                "actions" || header.id == "select" ? null : header.id == "numbers" ? (
                 <div className="text-center">
                   {flexRender(
                     header.column.columnDef.header,

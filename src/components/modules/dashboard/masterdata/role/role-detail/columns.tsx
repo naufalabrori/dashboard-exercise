@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Role } from "@/services/Role/types"; 
 import { useMemo } from "react";
 import { formatDateTime } from "@/lib/utils";
+import { UpdateRoleDetailForm } from "./UpdateForm";
 
 interface ColumnRoleDetail {
   currentPage: number;
@@ -91,6 +92,44 @@ export const RoleColumns = ({
         accessorKey: "modifiedDate",
         header: () => "Modified Date",
         cell: ({ row }) => formatDateTime(row.getValue("modifiedDate"))
+      },
+      {
+        id: "actions",
+        header: "Action",
+        cell: (info) => {
+          const {
+            id,
+            roleId,
+            menuId,
+            application,
+            menuGroup,
+            feature,
+            permission,
+            isActive,
+            createdBy,
+            createdByName,
+            createdDate
+          } = info.row.original;
+
+          const masterData = {
+            id,
+            roleId,
+            menuId,
+            application,
+            menuGroup,
+            feature,
+            permission,
+            isActive,
+            createdBy,
+            createdByName,
+            createdDate
+          };
+          return (
+            <>
+              <UpdateRoleDetailForm data={masterData}  />
+            </>
+          );
+        },
       },
     ],
     [currentPage, perPage]
