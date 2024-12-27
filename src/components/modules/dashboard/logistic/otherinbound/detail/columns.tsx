@@ -9,6 +9,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { EyeIcon } from "lucide-react";
 import { formatDateTime } from "@/lib/utils";
+import { DeleteOtherInboundDetailAlert } from "./DeleteAlert";
 
 interface ColumnOtherInboundDetail {
   currentPage: number;
@@ -89,11 +90,14 @@ export const OtherInboundDetailColumns = ({
         id: "actions",
         header: "Action",
         cell: ({ row }) => (
-          <Link href={`${pathname.split("/").slice(0, -1).join("/")}/detail/${row.original.id}`}>
+          <>
+            <Link href={`${pathname.split("/").slice(0, -1).join("/")}/detail/${row.original.id}`}>
             <Button className="mr-1 bg-blue-500 hover:bg-blue-600 p-3">
               <EyeIcon />
             </Button>
-          </Link>
+            </Link>
+            <DeleteOtherInboundDetailAlert id={row.original.id} />
+          </>
         ),
       },
     ],
