@@ -1,15 +1,13 @@
-export type OtherInboundHeader = {
-  id: string;
-  code: string;
-  businessPartner: string;
-  bpOrder: string;
-  remarks: string;
-  transactionStatus: string;
-  confirmedBy: string;
-  confirmedOn: string;
-  approvedBy: string;
-  approvedOn: string;
-  createdBy: string;
-  createdByName: string;
-  createdDate: string;
+import { BaseTypes } from "@/services/baseTypes";
+
+export type OtherInboundHeader = BaseTypes & {
+  code?: string;
+  businessPartner?: string;
+  bpOrder?: string;
+  remarks?: string;
+  transactionStatus?: string;
+  confirmedBy?: string;
+  confirmedOn?: string | null;
+  approvedBy?: string;
+  approvedOn?: string | null;
 };
