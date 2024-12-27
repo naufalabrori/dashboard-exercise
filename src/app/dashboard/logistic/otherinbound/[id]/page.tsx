@@ -1,4 +1,5 @@
 "use client";
+import { CreateOtherInboundDetailForm } from "@/components/modules/dashboard/logistic/otherinbound/detail/CreateForm";
 import { OtherInboundDetailDataTable } from "@/components/modules/dashboard/logistic/otherinbound/detail/data-table";
 import { OtherInboundHeaderForm } from "@/components/modules/dashboard/logistic/otherinbound/header/OtherInboundHeaderForm";
 import { Separator } from "@/components/ui/separator";
@@ -20,6 +21,7 @@ const RolePageByID = ({ params }: { params: { id: string } }) => {
       <div className="bg-white p-9 rounded-md shadow-lg">
         <div className="text-xl font-bold mb-3">Other Inbound Detail</div>
         <Separator className="mb-3" />
+        <CreateOtherInboundDetailForm headerId={params.id} />
         <OtherInboundDetailDataTable headerId={params.id} />
       </div>
     </>
