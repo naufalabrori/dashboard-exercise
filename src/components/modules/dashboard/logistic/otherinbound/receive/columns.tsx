@@ -3,24 +3,24 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { OtherInboundDetail } from "@/services/OtherInbound/Detail/types";
+import { OtherInboundReceive } from "@/services/OtherInbound/Receive/types";
 import { useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { EyeIcon } from "lucide-react";
-import { formatDateTime } from "@/lib/utils";
+import { formatDate, formatDateTime } from "@/lib/utils";
 
-interface ColumnOtherInboundDetail {
+interface ColumnOtherInboundReceive {
   currentPage: number;
   perPage: number;
 }
 
-export const OtherInboundDetailColumns = ({
+export const OtherInboundReceiveColumns = ({
   currentPage,
   perPage,
-}: ColumnOtherInboundDetail) => {
+}: ColumnOtherInboundReceive) => {
   const pathname = usePathname();
-  const columns = useMemo<ColumnDef<any, OtherInboundDetail>[]>(
+  const columns = useMemo<ColumnDef<any, OtherInboundReceive>[]>(
     () => [
       {
         id: "numbers",
@@ -34,34 +34,50 @@ export const OtherInboundDetailColumns = ({
         },
       },
       {
-        accessorKey: "itemCode",
-        header: () => "Item Code",
+        accessorKey: "noSuratJalan",
+        header: () => "No Surat Jalan",
       },
       {
-        accessorKey: "itemDesc",
-        header: () => "Item Desc",
+        accessorKey: "transportasi",
+        header: () => "Transportasi",
       },
       {
-        accessorKey: "materialType",
-        header: () => "Type",
+        accessorKey: "lotNo",
+        header: () => "Lot No",
       },
       {
-        accessorKey: "uom",
-        header: () => "UOM",
+        accessorKey: "manufacturingDate",
+        header: () => "Manufacturing Date",
+        cell: ({ row }) => formatDate(row.getValue("manufacturingDate")),
       },
       {
-        accessorKey: "qtyPerBag",
-        header: () => "Qty Per Bag",
+        accessorKey: "departureDate",
+        header: () => "Departure Date",
+        cell: ({ row }) => formatDate(row.getValue("departureDate")),
+      },
+      {
+        accessorKey: "inDate",
+        header: () => "In Date",
+        cell: ({ row }) => formatDate(row.getValue("inDate")),
+      },
+      {
+        accessorKey: "expiredDate",
+        header: () => "Expired Date",
+        cell: ({ row }) => formatDate(row.getValue("expiredDate")),
       },
       {
         accessorKey: "quantity",
         header: () => "Quantity",
       },
       {
-        accessorKey: "status",
-        header: "Status",
+        accessorKey: "qtyPerBag",
+        header: () => "Qty Per Bag",
+      },
+      {
+        accessorKey: "receiveStatus",
+        header: "receiveStatus",
         cell: ({ row }) => {
-          const status = row.getValue("status") as string;
+          const status = row.getValue("receiveStatus") as string;
           return (
             <Badge className="bg-green-500 hover:bg-green-600">{status}</Badge>
           );
@@ -69,11 +85,11 @@ export const OtherInboundDetailColumns = ({
       },
       {
         accessorKey: "createdByName",
-        header: () => "Created By",
+        header: () => "Receive By",
       },
       {
         accessorKey: "createdDate",
-        header: () => "Created Date",
+        header: () => "Receive Date",
         cell: ({ row }) => formatDateTime(row.getValue("createdDate")),
       },
       {
