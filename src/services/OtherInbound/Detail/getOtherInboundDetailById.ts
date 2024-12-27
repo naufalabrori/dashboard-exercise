@@ -18,5 +18,7 @@ export function useGetOtherInboundDetailById<T extends OtherInboundDetailsRespon
     queryKey,
     queryFn: () => getOtherInboundDetail(id),
     enabled: !!id,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false
   });
 }

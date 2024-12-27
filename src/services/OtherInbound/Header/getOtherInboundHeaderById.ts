@@ -18,5 +18,7 @@ export function useGetOtherInboundHeaderById<T extends OtherInboundHeadersRespon
     queryKey,
     queryFn: () => getOtherInboundHeader(id),
     enabled: !!id,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false
   });
 }

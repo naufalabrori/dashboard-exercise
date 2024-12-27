@@ -14,11 +14,13 @@ import { DeleteOtherInboundDetailAlert } from "./DeleteAlert";
 interface ColumnOtherInboundDetail {
   currentPage: number;
   perPage: number;
+  headerStatus: string;
 }
 
 export const OtherInboundDetailColumns = ({
   currentPage,
   perPage,
+  headerStatus
 }: ColumnOtherInboundDetail) => {
   const pathname = usePathname();
   const columns = useMemo<ColumnDef<any, OtherInboundDetail>[]>(
@@ -96,12 +98,12 @@ export const OtherInboundDetailColumns = ({
               <EyeIcon />
             </Button>
             </Link>
-            <DeleteOtherInboundDetailAlert id={row.original.id} />
+            { headerStatus == "Open" ? <DeleteOtherInboundDetailAlert id={row.original.id} /> : null }
           </>
         ),
       },
     ],
-    [currentPage, perPage, pathname]
+    [currentPage, perPage, pathname, headerStatus]
   );
 
   return columns;

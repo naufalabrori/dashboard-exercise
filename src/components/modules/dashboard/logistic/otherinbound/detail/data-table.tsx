@@ -31,6 +31,7 @@ import { useListOtherInboundDetail } from "@/services/OtherInbound/Detail/getLis
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface UseTableDataReturn<TData> {
   data: TData[];
@@ -54,7 +55,7 @@ function useTableData<TData>(
     orderBy: sortField?.id,
     isDesc: sortField?.desc,
     [filter.key]: filter.value,
-    OtherInboundHeaderId: otherInboundHeaderId
+    OtherInboundHeaderId: otherInboundHeaderId,
   };
 
   const {
@@ -98,10 +99,15 @@ export function OtherInboundDetailDataTable({
     headerId
   );
 
+  const queryClient = useQueryClient();
+  const queryKey = ["get-otherInboundHeader-by-id", headerId];
+  const cachedData: any = queryClient.getQueryData(queryKey);
+
   const columns: ColumnDef<any, OtherInboundDetail>[] =
     OtherInboundDetailColumns({
       currentPage,
       perPage: Number(limit),
+      headerStatus: cachedData?.transactionStatus,
     });
 
   const table = useReactTable({
@@ -212,9 +218,10 @@ export function OtherInboundDetailDataTable({
         limit={pagination.limit}
         onPageChange={handlePageChange}
       />
-      <Button 
+      <Button
         className="border-2 border-violet-500 bg-white text-violet-500 hover:bg-violet-50 mt-4"
-        onClick={() => router.back()}>
+        onClick={() => router.back()}
+      >
         <ArrowLeft className="text-violet-500" />
         Back
       </Button>
