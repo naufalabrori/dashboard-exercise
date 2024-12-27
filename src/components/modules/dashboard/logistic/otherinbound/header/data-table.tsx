@@ -73,7 +73,9 @@ function useTableData<TData>(
 export function OtherInboundHeaderDataTable() {
   const [totalData, setTotalData] = useState(0);
   const [limit, setLimit] = useState<string>("5");
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "createdDate", desc: true },
+  ]);
   const [filterBy, setFilterBy] = useState<string>("code");
   const [filterValue, setFilterValue] = useState<string>("");
   const [debounceFilter] = useDebounce(filterValue, 1000);

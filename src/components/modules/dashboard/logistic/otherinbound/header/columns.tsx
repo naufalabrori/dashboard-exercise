@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { EyeIcon } from "lucide-react";
+import { formatDateTime } from "@/lib/utils";
 
 interface ColumnOtherInboundHeader {
   currentPage: number;
@@ -65,6 +66,24 @@ export const OtherInboundHeaderColumns = ({
             </Badge>
           );
         },
+      },
+      {
+        accessorKey: "createdByName",
+        header: () => "Created By",
+      },
+      {
+        accessorKey: "createdDate",
+        header: () => "Created Date",
+        cell: ({ row }) => formatDateTime(row.getValue("createdDate")),
+      },
+      {
+        accessorKey: "modifiedByName",
+        header: () => "Modified By",
+      },
+      {
+        accessorKey: "modifiedDate",
+        header: () => "Modified Date",
+        cell: ({ row }) => formatDateTime(row.getValue("modifiedDate")),
       },
       {
         id: "actions",
