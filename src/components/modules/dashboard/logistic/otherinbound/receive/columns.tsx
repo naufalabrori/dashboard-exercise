@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { OtherInboundReceive } from "@/services/OtherInbound/Receive/types";
 import { useMemo } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { EyeIcon } from "lucide-react";
 import { formatDate, formatDateTime } from "@/lib/utils";
+import { PrintOtherInboundReceiveForm } from "./PrintForm";
 
 interface ColumnOtherInboundReceive {
   currentPage: number;
@@ -19,7 +16,6 @@ export const OtherInboundReceiveColumns = ({
   currentPage,
   perPage,
 }: ColumnOtherInboundReceive) => {
-  const pathname = usePathname();
   const columns = useMemo<ColumnDef<any, OtherInboundReceive>[]>(
     () => [
       {
@@ -104,16 +100,55 @@ export const OtherInboundReceiveColumns = ({
       {
         id: "actions",
         header: "Action",
-        cell: ({ row }) => (
-          <Link href={`${pathname.split("/").slice(0, -1).join("/")}/detail/${row.original.id}`}>
-            <Button className="mr-1 bg-blue-500 hover:bg-blue-600 p-3">
-              <EyeIcon />
-            </Button>
-          </Link>
-        ),
+        cell: ({row}) => { 
+          const {
+            id,
+            otherInboundDetailId,
+            stockCode,
+            itemCode,
+            itemDesc,
+            transportasi,
+            noSuratJalan,
+            lotNo,
+            manufacturingDate,
+            departureDate,
+            inDate,
+            expiredDate,
+            quantity,
+            qtyPerBag,
+            availablePutawayQty,
+            availablePutawayBagQty
+          } = row.original;
+
+          const masterData = {
+            id,
+            otherInboundDetailId,
+            stockCode,
+            itemCode,
+            itemDesc,
+            transportasi,
+            noSuratJalan,
+            lotNo,
+            manufacturingDate,
+            departureDate,
+            inDate,
+            expiredDate,
+            quantity,
+            qtyPerBag,
+            availablePutawayQty,
+            availablePutawayBagQty
+          }
+
+          return (
+            <div className="flex items-center gap-2">
+              <PrintOtherInboundReceiveForm dataReceive={masterData} />
+              <div className="text-violet-500 underline cursor-pointer">Putaway</div>
+            </div>
+          )
+        }
       },
     ],
-    [currentPage, perPage, pathname]
+    [currentPage, perPage]
   );
 
   return columns;
