@@ -73,7 +73,7 @@ export function OtherInboundHeaderForm({ id }: { id: string }) {
           <div className="relative w-full">
             <Input
               type="text"
-              value={form?.confirmedOn && formatDate(form?.confirmedOn)}
+              value={form?.confirmedOn != null ? formatDate(form?.confirmedOn) : ""}
               className="w-full bg-gray-100 border-gray-300 pl-10"
               readOnly
             />
@@ -94,7 +94,7 @@ export function OtherInboundHeaderForm({ id }: { id: string }) {
           <div className="relative w-full">
             <Input
               type="text"
-              value={form?.approvedOn && formatDate(form?.approvedOn)}
+              value={form?.approvedOn != null ? formatDate(form?.approvedOn) : ""}
               className="w-full bg-gray-100 border-gray-300 pl-10"
               readOnly
             />
