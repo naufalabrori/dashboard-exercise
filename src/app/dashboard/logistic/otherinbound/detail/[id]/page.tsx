@@ -20,7 +20,7 @@ const RoleDetailPageById = ({ params }: { params: { id: string } }) => {
   return (
     <>
       <div className="bg-white p-4 rounded-md shadow-lg">
-        <OtherInboundDetailForm id={params.id} />
+        <OtherInboundDetailForm data={data} />
       </div>
       <div className="bg-white p-9 rounded-md shadow-lg">
         <div className="text-xl font-bold mb-3">Other Inbound Receive</div>

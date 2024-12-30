@@ -1,12 +1,10 @@
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useGetOtherInboundDetailById } from "@/services/OtherInbound/Detail/getOtherInboundDetailById";
 import { OtherInboundDetail } from "@/services/OtherInbound/Detail/types";
 import React, { useEffect, useState } from "react";
 
-export function OtherInboundDetailForm({ id }: { id: string }) {
+export function OtherInboundDetailForm({ data }: { data?: OtherInboundDetail }) {
   const [form, setForm] = useState<OtherInboundDetail | null>(null);
-  const { data } = useGetOtherInboundDetailById(id);
 
   useEffect(() => {
     if (data) {
