@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axiosClient from "../AxiosClient";
+import axiosClient from "../../AxiosClient";
 import { useQuery } from "@tanstack/react-query";
 import { PaginationParams } from "@/lib/types";
 import { OtherOutboundHeader } from "./types";

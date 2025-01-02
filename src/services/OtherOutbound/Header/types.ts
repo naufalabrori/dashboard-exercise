@@ -1,4 +1,4 @@
-import { BaseTypes } from "../baseTypes";
+import { BaseTypes } from "@/services/baseTypes";
 
 export type OtherOutboundHeader = BaseTypes & {
   code?: string;

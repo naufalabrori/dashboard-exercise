@@ -23,8 +23,8 @@ import {
 } from "@/components/ui/select";
 import { NumberOfShowTable } from "@/lib/utils";
 import { OtherOutboundHeaderColumns } from "./columns";
-import { OtherOutboundHeader } from "@/services/OtherOutbound/types";
-import { useListOtherOutboundHeader } from "@/services/OtherOutbound/getListOtherOutboundHeader";
+import { OtherOutboundHeader } from "@/services/OtherOutbound/Header/types";
+import { useListOtherOutboundHeader } from "@/services/OtherOutbound/Header/getListOtherOutboundHeader";
 import { PaginationParams } from "@/lib/types";
 import { useTablePagination } from "@/hooks/use-table-pagination";
 import { useDebounce } from "use-debounce";

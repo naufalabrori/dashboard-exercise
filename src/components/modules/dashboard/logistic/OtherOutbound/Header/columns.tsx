@@ -2,7 +2,7 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
-import { OtherOutboundHeader } from "@/services/OtherOutbound/types";
+import { OtherOutboundHeader } from "@/services/OtherOutbound/Header/types";
 import { useMemo } from "react";
 import { formatDateTime } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
