@@ -8,14 +8,12 @@ import {
 } from "@/components/ui/collapsible";
 import {
   Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
@@ -63,50 +61,47 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
 
   return (
-    <Sidebar {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader></SidebarHeader>
-      <SidebarContent className="gap-0">
+      <SidebarMenu>
         {menus.map((item) => (
           <Collapsible
+            asChild
             key={item.title}
             title={item.title}
             defaultOpen={pathname.includes(item.url)}
             className="group/collapsible"
           >
-            <SidebarGroup>
-              <SidebarGroupLabel
-                asChild
-                className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              >
-                <CollapsibleTrigger>
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton tooltip={item.title}>
                   <div className="flex mr-2">{item.icon}</div>
                   {item.title}{" "}
                   <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
-                </CollapsibleTrigger>
-              </SidebarGroupLabel>
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
               <CollapsibleContent>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {item.items.map((item) => (
-                      <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton
-                          asChild
-                          isActive={pathname.includes(item.url)}
-                          className="pl-8"
-                        >
-                          <Link href={`/dashboard${item.url}`}>
-                            {item.title}
-                          </Link>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
+                <SidebarMenuSub>
+                  {item.items?.map((subItem) => (
+                    <SidebarMenuSubItem key={subItem.title}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname.includes(subItem.url)}
+                        className="pl-2"
+                      >
+                        <Link href={`/dashboard${subItem.url}`}>
+                          {subItem.title}
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
               </CollapsibleContent>
-            </SidebarGroup>
+            </SidebarMenuItem>
           </Collapsible>
         ))}
-      </SidebarContent>
+      </SidebarMenu>
+
       <SidebarRail />
     </Sidebar>
   );
