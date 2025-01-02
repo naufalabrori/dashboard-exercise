@@ -79,7 +79,7 @@ export function OtherInboundReceiveForm({
   const handleSubmit = () => {
     form.quantity = Number(form?.quantity);
     const result = otherInboundReceiveSchema.safeParse(form);
-
+    console.log(result);
     if (!result.success) {
       const validationErrors = result.error.errors.reduce(
         (acc, error) => ({
@@ -227,7 +227,7 @@ export function OtherInboundReceiveForm({
                 >
                   <CalendarIcon />
                   {form?.manufacturingDate ? (
-                    format(form?.manufacturingDate, "PPP")
+                    format(form?.manufacturingDate, "dd MMMM yyyy")
                   ) : (
                     <span>Select Manufacturing Date</span>
                   )}
@@ -263,7 +263,7 @@ export function OtherInboundReceiveForm({
                 >
                   <CalendarIcon />
                   {form?.departureDate ? (
-                    format(form?.departureDate, "PPP")
+                    format(form?.departureDate, "dd MMMM yyyy")
                   ) : (
                     <span>Select Departure Date</span>
                   )}
@@ -299,7 +299,7 @@ export function OtherInboundReceiveForm({
                 >
                   <CalendarIcon />
                   {form?.inDate ? (
-                    format(form?.inDate, "PPP")
+                    format(form?.inDate, "dd MMMM yyyy")
                   ) : (
                     <span>Select In Date</span>
                   )}
@@ -335,7 +335,7 @@ export function OtherInboundReceiveForm({
                 >
                   <CalendarIcon />
                   {form?.expiredDate ? (
-                    format(form?.expiredDate, "PPP")
+                    format(form?.expiredDate, "dd MMMM yyyy")
                   ) : (
                     <span>Select Expired Date</span>
                   )}
@@ -383,7 +383,7 @@ export function OtherInboundReceiveForm({
           <div className="col-span-2">Receive Type</div>
           <div className="col-span-3">
             <RadioGroup
-              defaultValue="Non-Full Bag"
+              // defaultValue="Non-Full Bag"
               onValueChange={(value) => {
                 setForm((prev) => ({ ...prev, receiveType: value }));
               }}
@@ -397,6 +397,9 @@ export function OtherInboundReceiveForm({
                 <Label htmlFor="r2">Full Bag</Label>
               </div>
             </RadioGroup>
+            {errors.receiveType && (
+              <p className="text-red-500 text-sm">{errors.receiveType}</p>
+            )}
           </div>
         </div>
         <div className="grid grid-cols-5 gap-3">
