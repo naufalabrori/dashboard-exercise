@@ -150,7 +150,7 @@ export function CreateOtherInboundHeaderForm() {
         <div className="grid grid-cols-5 gap-3">
           <div className="col-span-2">Choose Business Partner</div>
           <div className="col-span-3">
-            <Popover open={openSupplier} onOpenChange={setOpenSupplier}>
+            <Popover open={openSupplier} onOpenChange={setOpenSupplier} modal={true}>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"

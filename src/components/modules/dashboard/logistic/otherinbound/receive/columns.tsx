@@ -6,6 +6,7 @@ import { OtherInboundReceive } from "@/services/OtherInbound/Receive/types";
 import { useMemo } from "react";
 import { formatDate, formatDateTime } from "@/lib/utils";
 import { PrintOtherInboundReceiveForm } from "./PrintForm";
+import { OtherInboundPutawayForm } from "../putaway/PutawayForm";
 
 interface ColumnOtherInboundReceive {
   currentPage: number;
@@ -142,7 +143,7 @@ export const OtherInboundReceiveColumns = ({
           return (
             <div className="flex items-center gap-2">
               <PrintOtherInboundReceiveForm dataReceive={masterData} />
-              <div className="text-violet-500 underline cursor-pointer">Putaway</div>
+              <OtherInboundPutawayForm dataReceive={masterData} />
             </div>
           )
         }

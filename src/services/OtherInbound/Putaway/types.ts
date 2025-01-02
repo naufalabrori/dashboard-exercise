@@ -7,8 +7,8 @@ export type OtherInboundPutaway = BaseTypes & {
   transportasi?: string;
   noSuratJalan?: string;
   lotNo?: string;
-  inDate?: string;
-  expiredDate?: string;
+  inDate?: string | null;
+  expiredDate?: string | null;
   putawayQty?: number;
   qtyPerBag?: number;
   putawayMethod?: string;
