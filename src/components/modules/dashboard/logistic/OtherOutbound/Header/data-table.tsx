@@ -10,8 +10,8 @@ import {
 
 import { Table } from "@/components/ui/table";
 import { DataTablePagination } from "@/components/table/pagination";
-import { DataTableHeader } from "../../../../table/table-header";
-import { DataTableBody } from "../../../../table/table-body";
+import { DataTableHeader } from "@/components/table/table-header";
+import { DataTableBody } from "@/components/table/table-body";
 import { Input } from "@/components/ui/input";
 import {
   Select,

@@ -1,5 +1,5 @@
 "use client";
-import { OtherOutboundHeaderDataTable } from "@/components/modules/dashboard/logistic/OtherOutbound/data-table";
+import { OtherOutboundHeaderDataTable } from "@/components/modules/dashboard/logistic/OtherOutbound/Header/data-table";
 import useMenuStore from "@/hooks/useMenuStore";
 import React, { useEffect } from "react";
 
