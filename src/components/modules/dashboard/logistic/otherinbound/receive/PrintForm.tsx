@@ -17,12 +17,12 @@ import { ChangeEvent, useState } from "react";
 import { z } from "zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { useCreateOtherInboundReceive } from "@/services/OtherInbound/Receive/createOtherInboundReceive";
 import { OtherInboundReceive } from "@/services/OtherInbound/Receive/types";
 import { useListPrinter } from "@/services/Dropdownlist/getListPrinter";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "path";
 import { formatDate } from "@/lib/utils";
+import { useCreatePrintOtherInboundReceive } from "@/services/OtherInbound/Receive/createPrintOtherInboundReceive";
 
 const printOtherInboundReceiveSchema = z.object({
   printerIpAddress: z.string(),
@@ -52,9 +52,10 @@ export function PrintOtherInboundReceiveForm({
     }));
   };
 
-  const { mutate, isPending } = useCreateOtherInboundReceive();
+  const { mutate, isPending } = useCreatePrintOtherInboundReceive();
 
   const handleSubmit = () => {
+    form.printQuantity = Number(form?.printQuantity);
     const result = printOtherInboundReceiveSchema.safeParse(form);
 
     if (!result.success) {
@@ -68,14 +69,15 @@ export function PrintOtherInboundReceiveForm({
       setErrors(validationErrors);
     } else {
       const payload = {
-        
+        ...dataReceive,
+        ...form,
       };
       mutate(payload, {
         onSuccess: () => {
           queryClient.invalidateQueries({
             queryKey: ["get-other-inbound-receive"],
           });
-          toast("Receive Successfully", { type: "success" });
+          toast("Print Successfully", { type: "success" });
         },
         onError: (error: any) => {
           toast(
@@ -218,12 +220,12 @@ export function PrintOtherInboundReceiveForm({
           </div>
         </div>
         <div className="grid grid-cols-5 gap-2">
-          <div className="col-span-2">Transportation</div>
+          <div className="col-span-2">Printer</div>
           <div className="col-span-3">
             <Select
-              name="transportasi"
+              name="printerIpAddress"
               onValueChange={(value) =>
-                setForm((prev) => ({ ...prev, transportasi: value }))
+                setForm((prev) => ({ ...prev, printerIpAddress: value }))
               }
             >
               <SelectTrigger className="w-full">

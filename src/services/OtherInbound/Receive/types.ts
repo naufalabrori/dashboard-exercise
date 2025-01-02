@@ -22,4 +22,7 @@ export type OtherInboundReceive = BaseTypes & {
   availablePutawayBagQty?: number;
 }
 
-export type PrintOtherInboundReceive = OtherInboundReceive & {}
+export type PrintOtherInboundReceive = OtherInboundReceive & {
+  printerIpAddress?: string;
+  printQuantity?: number;
+};

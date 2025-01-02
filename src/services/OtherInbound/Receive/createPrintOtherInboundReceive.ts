@@ -2,20 +2,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axiosClient from "@/services/AxiosClient";
 import { useMutation } from "@tanstack/react-query";
-import { OtherInboundReceive } from "./types";
+import { PrintOtherInboundReceive } from "./types";
 
-const createOtherInboundReceive = async (data: OtherInboundReceive) => {
+const createPrintOtherInboundReceive = async (data: PrintOtherInboundReceive) => {
   const res = await axiosClient
-    .post("/OtherInboundReceive", { OtherInboundReceive: data })
+    .post("/OtherInboundReceive/PrintReceive", { data: data })
     .then((res: any) => {
       return res.data;
     });
 
-  return res.otherInboundReceive;
+  return res.data;
 };
 
-export function useCreateOtherInboundReceive() {
+export function useCreatePrintOtherInboundReceive() {
   return useMutation({
-    mutationFn: (data: OtherInboundReceive) => createOtherInboundReceive(data),
+    mutationFn: (data: PrintOtherInboundReceive) => createPrintOtherInboundReceive(data),
   });
 }
