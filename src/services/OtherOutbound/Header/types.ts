@@ -7,7 +7,7 @@ export type OtherOutboundHeader = BaseTypes & {
   remarks?: string;
   transactionStatus?: string;
   confirmedBy?: string;
-  confirmedOn?: string;
+  confirmedOn?: string | null;
   approvedBy?: string;
-  approvedOn?: string;
+  approvedOn?: string | null;
 }

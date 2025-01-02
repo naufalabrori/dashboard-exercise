@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/select";
 import { cn, NumberOfShowTable } from "@/lib/utils";
 import { InboundHeaderColumns } from "./columns";
-import { OtherOutboundHeader } from "@/services/OtherOutbound/types";
+import { OtherOutboundHeader } from "@/services/OtherOutbound/Header/types";
 import { PaginationParams } from "@/lib/types";
 import { useTablePagination } from "@/hooks/use-table-pagination";
 import { useDebounce } from "use-debounce";
