@@ -137,6 +137,8 @@ export function CreateOtherInboundHeaderForm() {
             setIsDialogOpen(true);
             setForm({});
             setErrors({});
+            setBpDescription("");
+            setAddress("");
           }}
         >
           <PlusIcon />
@@ -175,11 +177,11 @@ export function CreateOtherInboundHeaderForm() {
                       {filteredList?.map((item) => (
                         <CommandItem
                           key={item.value[0]}
-                          value={item.value[0]}
+                          value={item.label}
                           onSelect={(currentValue) => {
                             setForm((prev) => ({
                               ...prev,
-                              businessPartner: currentValue,
+                              businessPartner: item.value[0],
                             }));
                             setBpDescription(item.value[1] as string);
                             setAddress(item.value[2] as string);
